@@ -1,0 +1,23 @@
+.nav{
+    position: absolute;
+    width: 100%;
+    top:0;
+    left:0;
+}
+.nav ul li{ 
+    /* border-bottom: 2px solid white;  */
+    color: black;
+
+}
+
+/* nav ul a {
+    color: black;
+} */
+
+.nav nav{
+    box-shadow: none;
+}
+.nav ul li:hover{
+    border-bottom: 2px white;
+    background-color: initial;
+}
