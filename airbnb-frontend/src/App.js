@@ -6,10 +6,10 @@ import Home from './components/Home'
 function App() {
   return (
     <Router>
-    <div className="App">
-      <Route path="/" component={NavBar} />
-      <Route exact path="/" component={Home} />
-    </div>
+      <div className="App">
+        <Route path="/" component={NavBar} />
+        <Route exact path="/" component={Home} />
+      </div>
     </Router>
   );
 }
