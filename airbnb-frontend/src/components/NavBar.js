@@ -9,6 +9,9 @@ import { bindActionCreators } from 'redux'
 import logoutAction from '../actions/logoutAction'
 import testThunkAction from '../actions/thunkTest'
 
+
+
+
 class NavBar extends React.Component{
   constructor(props){
     super(props);
@@ -82,11 +85,15 @@ changeModalContent = (newContent)=>{
 
 
   render(){
+    let navColor = "transparent"
+    if(this.props.location.pathname === '/host/homes'){
+      navColor = "black";
+    }
     const navLinks = this.buildNavLinks();
     return(<>
         <div className="container-fluid nav">
             <div className="row">
-                <nav className="transparent">
+                <nav className={navColor}>
                     <div className="nav-wrapper">
                         <Link to="/" className="left">airbnb</Link>
                        {navLinks}
