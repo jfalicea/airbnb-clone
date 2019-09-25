@@ -86,7 +86,7 @@ changeModalContent = (newContent)=>{
 
   render(){
     let navColor = "transparent"
-    if(this.props.location.pathname === '/host/homes'){
+    if(this.props.location.pathname !== '/'){
       navColor = "black";
     }
     const navLinks = this.buildNavLinks();
