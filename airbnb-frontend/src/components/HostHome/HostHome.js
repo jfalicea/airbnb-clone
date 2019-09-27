@@ -5,7 +5,7 @@ import axios from 'axios'
 
 class HostHome extends Component{
     state ={
-        title: "", location:"", numGuests: "", price: "", details: "", img: "", amenities: ""
+        title: "", location:"", guests: "", price: "", details: "", img: "", amenities: ""
     }
 
 
@@ -23,13 +23,17 @@ class HostHome extends Component{
         console.log('title', e.target.value )
         this.setState({title: e.target.value})
     }
-    changeLocation = (e)=>{this.setState({Location: e.target.value})}
+    changeLocation = (e)=>{
+        console.log('location: ', e.target.value)
+        this.setState({location: e.target.value})
+    }
     changeNumGuests = (e)=>{
         console.log(e.target.value)
-        this.setState({numGuests: e.target.value})
+        this.setState({guests: e.target.value})
     }
     changePrice = (e)=>{this.setState({price: e.target.value})}
     changeDetails = (e)=>{
+        console.log(e.target.value)
         this.setState({details: e.target.value})
     }
     changeImg = (e)=>{this.setState({img: e.target.value})}
@@ -37,13 +41,25 @@ class HostHome extends Component{
 
     submitForm= async (e)=>{
         e.preventDefault();
-        ///FORM VALUE
-        // const formData ={...this.state};
-        const dataToSend = {...this.state}
-        dataToSend.token = this.props.auth.token;
+        const file = document.getElementById('location-image').files[0];
+        const headerConfig = {
+            headers:{
+                'content-type': 'multipart/form-data'
+            }
+        }
+        const data = new FormData(); //this creates a form with content-type: multipart/form-data this is a form data interface. must use if you send an img. this is helping with sending the HeadersConfig
+        data.append('locationImage', file)
+        for(let key in this.state){
+            data.append(key,this.state[key])
+        }
+        
+        ///FORM Validation!!!! 
+
+        // dataToSend.token = this.props.auth.token;
+        data.append("token", this.props.auth.token)
         const formURL = `${window.apiHost}/host/homes`
-        const axiosResp = await axios.post(formURL,dataToSend)
-        console.log(axiosResp)
+        const axiosResp = await axios.post(formURL,data,headerConfig)
+        console.log(axiosResp.data)
 
 
      
@@ -59,13 +75,13 @@ class HostHome extends Component{
                             <label htmlFor="title">Title</label>
                         </div>
                         <div className="input-field col s6">
-                            <input id="location" type="text" value={this.state.location}className="validate" onChange={this.changeLocation} />
+                            <input id="location" type="text" value={this.state.location} className="validate" onChange={this.changeLocation} />
                             <label htmlFor="location">Location</label>
                         </div>
                     </div>
                     <div className="row">
                         <div className="input-field col s6">
-                            <select value={this.state.numGuests} onChange={this.changeNumGuests}>
+                            <select value={this.state.guests} onChange={this.changeNumGuests}>
                             <option value="" disabled >Choose your option</option>
                             <option value="1">1 Guest</option>
                             <option value="2">2 Guest</option>
@@ -92,12 +108,13 @@ class HostHome extends Component{
               </div>
               <div className="row">
                     <div className="input-field col s6">                           
-                        <input type="file" onChange={this.changeImg} value={this.state.img}/>Upload image
+                        <input id="location-image" type="file" onChange={this.changeImg} value={this.state.img}/>Upload image
                     </div>
                     <div className="input-field col s6">
                         <input id="amenties" type="text" onChange={this.changeAmenities} value={this.state.amenities} className="validate" />
                         <label htmlFor="amenities">Amenities</label>
                     </div>
+                    <button className="submit-button">Submit</button>
                 </div>
             </form>
           </div>
